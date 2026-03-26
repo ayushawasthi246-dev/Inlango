@@ -10,7 +10,11 @@ const userschema = Mongoose.Schema({
     VerifiedAccount: { type: Boolean, default: false },
     PasswordRestToken: { type: String, default: '' },
     PasswordRestTokenExpireAt: { type: Number, default: 0 },
+<<<<<<< HEAD
 },{timestamp:true})
+=======
+})
+>>>>>>> b0510c114b270ccd25873bfccd4b0054861698cd
 
 const UserModel = Mongoose.models.User || Mongoose.model('User', userschema)
 export default UserModel 
