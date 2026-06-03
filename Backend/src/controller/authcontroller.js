@@ -224,7 +224,12 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        res.clearCookie("refreshToken")
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",    
+            path: "/"            
+        });
         return res.status(200).json({ success: true, message: "User loged out" })
     } catch (error) {
         return res.status(500).json({ success: false, message: "Internal server error" })
@@ -479,6 +484,6 @@ export const markTranslationDisclaimerSeen = async (req, res) => {
 
         return res.status(200).json({ success: true })
     } catch (error) {
-        return res.status(500).json({success: false,message: error.message})
+        return res.status(500).json({ success: false, message: error.message })
     }
 }
