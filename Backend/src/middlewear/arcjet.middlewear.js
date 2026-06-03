@@ -22,7 +22,6 @@ export const arcjetProtection = async (req,res,next) =>{
         next()
 
     } catch (error) {
-        console.error("Error in register controller : ", error)
         return res.status(500).json({ success: false, message: "Internal server error" })
     }
 }

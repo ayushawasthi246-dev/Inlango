@@ -29,7 +29,6 @@ async function sendMail(to, subject, html) {
         });
         return true;
     } catch (err) {
-        console.error("❌ Mail failed:", err.message);
         return false;
     }
 }

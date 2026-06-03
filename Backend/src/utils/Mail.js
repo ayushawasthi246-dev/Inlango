@@ -53,7 +53,6 @@ export const SendOTP = async ({Email , otp}) => {
         }
         return ({ success: true, message: "OTP has been sent to your email" });
     } catch (error) {
-        console.error("Error in register controller : ", error)
         return ({ success: false, message: "Internal server error" })
     }
 }
@@ -63,13 +62,12 @@ export const Welcome = async (user) => {
     if (!user) {
         return ({ success: false, message: "something went wrong, please try again" })
     }
-
+    
     try {
-
-        if (!user.verifiedAccount) {
+        if (user.verifiedAccount) {
             return ({ success: false, message: "User already exists" })
         }
-
+        
         const html = `
         <!DOCTYPE html >
         <html>
@@ -106,17 +104,14 @@ export const Welcome = async (user) => {
                 </div>
             </body>
         </html>
-`
+        `
         const success = await sendMail(user.Email, "Welcome to Inlango", html);
-
+        
         if (!success) {
-            return ({success: false,message: "Failed to send OTP"});
+            return ({success: false,message: "Failed to send Welcome mail"});
         }
-
-        return ({success: true,message: "OTP has been sent to your email"});
-
+        
     } catch (error) {
-        console.error("Error in register controller : ", error)
         return ({ success: false, message: "Internal server error" })
     }
 }
@@ -161,7 +156,7 @@ export const RestPassLink = async ({user , token}) => {
 
                     <tr>
                         <td align="center" style="padding:25px 0;">
-                        <a href="http://localhost:3000/auth/resetpass/${token}"
+                        <a href="${process.env.CLIENT_URL}/reset-password/${token}"
                             style="background-color:#4CAF50; color:white; padding:12px 25px; text-decoration:none; border-radius:6px; font-size:16px; display:inline-block;">
                             Reset Password
                         </a>
@@ -171,7 +166,7 @@ export const RestPassLink = async ({user , token}) => {
                         <td style="color:#777; font-size:14px; line-height:1.5;">
                         <p>If the button doesn't work, copy and paste this link into your browser:</p>
                         <p style="word-break:break-all; color:#4CAF50;">
-                            "http://localhost:3000/auth/resetpass/${token}"
+                            "${process.env.CLIENT_URL}/reset-password/${token}"
                         </p>
                         </td>
                     </tr>
@@ -200,7 +195,6 @@ export const RestPassLink = async ({user , token}) => {
 
 
     } catch (error) {
-        console.error("Error in register controller : ", error)
         return ({ success: false, message: "Internal server error" })
     }
 }
